@@ -27,27 +27,10 @@ class ProfileAdapter(val userList: ArrayList<UserWrapper>, val clickListener: Us
         return MyViewHolder(v)
     }
 
-    override fun onViewRecycled(holder: MyViewHolder) {
-        ImageLoader.getInstance().cancel(holder.mImageView, userList[holder.adapterPosition].user.profileImage.medium)
-        holder.mImageView.setImageDrawable(null)
-        super.onViewRecycled(holder)
-    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val wrapper = userList.get(position)
         holder.mTextView.text = wrapper.user.name
         ImageLoader.getInstance().load(holder.mImageView, wrapper.user.profileImage.medium)
-        System.out.println("id:" + holder.mImageView.id)
-//        ImageLoader.getInstance().load(holder.mImageView, wrapper.user.profileImage.medium, object : BitmapCallback {
-//            override fun onBitmapLoaded(tag: String, bitmap: Bitmap) {
-//                if (wrapper.user.profileImage.medium == tag) {
-//                    holder.mImageView.setImageBitmap(bitmap)
-//                }
-//            }
-//
-//            override fun onFailure(e: Exception) {
-//
-//            }
-//        })
         holder.itemView.setOnClickListener({ clickListener.onClick(wrapper.user, position) })
     }
 
